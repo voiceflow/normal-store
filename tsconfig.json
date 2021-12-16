@@ -1,0 +1,28 @@
+{
+  "extends": "@voiceflow/tsconfig",
+  "compilerOptions": {
+    "target": "es2017",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "types": [
+      "@types/mocha"
+    ],
+    "lib": [
+      "es2019"
+    ]
+  },
+  "compileOnSave": false,
+  "include": [
+    "src/**/*.ts",
+    "typings/**/*.d.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": [
+    "build/**",
+    "node_modules/**"
+  ]
+}
