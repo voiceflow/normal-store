@@ -7,6 +7,7 @@ export * from './get';
 export * from './has';
 export * from './patch';
 export * from './remove';
+export * from './reorder';
 export * from './update';
 
 export interface Normalize {

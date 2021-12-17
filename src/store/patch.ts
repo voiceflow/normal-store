@@ -5,7 +5,6 @@ import { hasOne } from './has';
 import { updateOne } from './update';
 
 export interface PatchOne {
-  <T>(store: Normalized<T>, key: string, patch: Partial<T> | ((value: T) => Partial<T>)): T;
   <T extends Normalized<any>>(store: T, key: string, patch: Partial<NormalizedValue<T>> | ((value: T) => Partial<NormalizedValue<T>>)): T;
 }
 

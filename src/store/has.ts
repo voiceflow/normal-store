@@ -2,12 +2,10 @@ import { Normalized } from '@/types';
 import { hasProperty } from '@/utils';
 
 export interface HasOne {
-  <T>(store: Normalized<T>, key: string): boolean;
   <T extends Normalized<any>>(store: T, key: string): boolean;
 }
 
 export interface HasMany {
-  <T>(store: Normalized<T>, keys: string[]): boolean;
   <T extends Normalized<any>>(store: T, keys: string[]): boolean;
 }
 

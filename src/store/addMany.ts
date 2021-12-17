@@ -2,8 +2,6 @@ import { GetKey, Identifiable, Normalized, NormalizedValue } from '@/types';
 import { defaultGetKey, withoutValues } from '@/utils';
 
 export interface AddMany {
-  <T extends Identifiable>(store: Normalized<T>, values: T[]): T[];
-  <T>(store: Normalized<T>, values: T[], getKey: GetKey<T>): T[];
   <T extends Normalized<Identifiable>>(store: T, values: T[]): T;
   <T extends Normalized<any>>(store: T, values: T[], getKey: GetKey<T>): T;
 }

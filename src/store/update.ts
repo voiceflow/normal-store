@@ -1,7 +1,6 @@
 import { Normalized, NormalizedValue } from '@/types';
 
 export interface UpdateOne {
-  <T>(store: Normalized<T>, key: string, update: T): T;
   <T extends Normalized<any>>(store: T, key: string, update: NormalizedValue<T>): T;
 }
 
