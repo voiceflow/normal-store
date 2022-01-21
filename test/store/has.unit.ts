@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { has, hasMany, hasOne, normalize } from '@/store';
+import { has, hasCarry, hasMany, hasManyCurry, hasOne, hasOneCurry, normalize } from '@/store';
 
 describe('store | has', () => {
   describe('hasOne()', () => {
@@ -16,6 +16,19 @@ describe('store | has', () => {
     });
   });
 
+  describe('hasOneCurry()', () => {
+    const value = { id: 'a' };
+    const store = normalize([value]);
+
+    it('returns true when a key is recognized', () => {
+      expect(hasOneCurry(store)('a')).to.be.true;
+    });
+
+    it('returns false when a key is not recognized', () => {
+      expect(hasOneCurry(store)('b')).to.be.false;
+    });
+  });
+
   describe('hasMany()', () => {
     const store = normalize([{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
 
@@ -28,6 +41,18 @@ describe('store | has', () => {
     });
   });
 
+  describe('hasManyCurry()', () => {
+    const store = normalize([{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
+
+    it('returns true when all keys are recognized', () => {
+      expect(hasManyCurry(store)(['c', 'a'])).to.be.true;
+    });
+
+    it('returns false if any keys are not recognized', () => {
+      expect(hasManyCurry(store)(['d', 'b'])).to.be.false;
+    });
+  });
+
   describe('has()', () => {
     const store = normalize([{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
 
@@ -37,6 +62,18 @@ describe('store | has', () => {
 
     it('returns true when all keys are recognized', () => {
       expect(has(store, ['c', 'a'])).to.be.true;
+    });
+  });
+
+  describe('hasCarry()', () => {
+    const store = normalize([{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
+
+    it('returns true when a key is recognized', () => {
+      expect(hasCarry(store)('c')).to.be.true;
+    });
+
+    it('returns true when all keys are recognized', () => {
+      expect(hasCarry(store)(['c', 'a'])).to.be.true;
     });
   });
 });
