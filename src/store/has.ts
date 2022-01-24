@@ -33,5 +33,5 @@ export const hasOneCurry: HasOneCurry = (store: Normalized<any>) => (key: string
 
 export const has: Has = (store: Normalized<any>, keys: string | string[]) => (Array.isArray(keys) ? hasMany(store, keys) : hasOne(store, keys));
 
-export const hasCarry: HasCurry = (store: Normalized<any>) => (keys: string | string[]) =>
+export const hasCurry: HasCurry = (store: Normalized<any>) => (keys: string | string[]) =>
   Array.isArray(keys) ? hasMany(store, keys) : hasOne(store, keys);

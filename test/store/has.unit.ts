@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { has, hasCarry, hasMany, hasManyCurry, hasOne, hasOneCurry, normalize } from '@/store';
+import { has, hasCurry, hasMany, hasManyCurry, hasOne, hasOneCurry, normalize } from '@/store';
 
 describe('store | has', () => {
   describe('hasOne()', () => {
@@ -65,15 +65,15 @@ describe('store | has', () => {
     });
   });
 
-  describe('hasCarry()', () => {
+  describe('hasCurry()', () => {
     const store = normalize([{ id: 'a' }, { id: 'b' }, { id: 'c' }]);
 
     it('returns true when a key is recognized', () => {
-      expect(hasCarry(store)('c')).to.be.true;
+      expect(hasCurry(store)('c')).to.be.true;
     });
 
     it('returns true when all keys are recognized', () => {
-      expect(hasCarry(store)(['c', 'a'])).to.be.true;
+      expect(hasCurry(store)(['c', 'a'])).to.be.true;
     });
   });
 });
