@@ -23,13 +23,13 @@ export interface HasCurry {
   <T extends Normalized<any>>(store: T): (keys: string | string[]) => boolean;
 }
 
-export const hasMany: HasMany = (store: Normalized<any>, keys: string[]) => keys.every((key) => hasOne(store, key));
-
-export const hasManyCurry: HasManyCurry = (store: Normalized<any>) => (keys: string[]) => hasMany(store, keys);
-
 export const hasOne: HasOne = ({ byKey }: Normalized<any>, key: string) => hasProperty(byKey, key);
 
 export const hasOneCurry: HasOneCurry = (store: Normalized<any>) => (key: string) => hasOne(store, key);
+
+export const hasMany: HasMany = (store: Normalized<any>, keys: string[]) => keys.every((key) => hasOne(store, key));
+
+export const hasManyCurry: HasManyCurry = (store: Normalized<any>) => (keys: string[]) => hasMany(store, keys);
 
 export const has: Has = (store: Normalized<any>, keys: string | string[]) => (Array.isArray(keys) ? hasMany(store, keys) : hasOne(store, keys));
 
