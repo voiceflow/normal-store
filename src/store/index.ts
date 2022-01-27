@@ -15,8 +15,8 @@ export interface Normalize {
   <T>(items: T[], getKey: GetKey<T>): Normalized<T>;
 }
 
-export const normalize: Normalize = <T extends Identifiable | unknown>(items: T[], getKey?: GetKey<T>) => {
-  const allKeys = items.map(getKey ?? (defaultGetKey as GetKey<T>));
+export const normalize: Normalize = <T extends Identifiable | unknown>(items: T[], getKey: GetKey<T> = defaultGetKey as GetKey<T>) => {
+  const allKeys = items.map(getKey);
 
   return {
     byKey: buildLookup<T>(allKeys, getByIndex<T>(items)),

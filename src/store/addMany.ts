@@ -1,26 +1,24 @@
 import { GetKey, Identifiable, Normalized, NormalizedValue } from '@/types';
 import { defaultGetKey, withoutValues } from '@/utils';
 
+import { updateMany } from './update';
+
 export interface AddMany {
-  <T extends Normalized<Identifiable>>(store: T, values: T[]): T;
-  <T extends Normalized<any>>(store: T, values: T[], getKey: GetKey<T>): T;
+  <T extends Normalized<Identifiable>>(store: T, values: NormalizedValue<T>[]): T;
+  <T extends Normalized<any>>(store: T, values: NormalizedValue<T>[], getKey: GetKey<NormalizedValue<T>>): T;
 }
 
-const addMany = <T extends Identifiable | unknown, N extends Normalized<T>, K extends GetKey<T> = GetKey<T>>(
-  store: N,
-  values: T[],
+const addMany = <T extends Normalized<any>, K extends GetKey<NormalizedValue<T>> = GetKey<NormalizedValue<T>>>(
+  store: T,
+  values: NormalizedValue<T>[],
   mergeKeys: (allKeys: string[], newKeys: string[]) => string[],
-  getKey?: K
-): N => {
-  const keyGetter = getKey ?? (defaultGetKey as unknown as K);
-  const newKeys = withoutValues(values.map(keyGetter), store.allKeys);
+  getKey: K = defaultGetKey as unknown as K
+): T => {
+  const newKeys = withoutValues(values.map(getKey), store.allKeys);
 
   return {
     ...store,
-    byKey: {
-      ...store.byKey,
-      ...Object.fromEntries(values.map((value, index, allValues) => [keyGetter(value, index, allValues), value])),
-    },
+    ...updateMany(store, values, getKey),
     allKeys: mergeKeys(store.allKeys, newKeys),
   };
 };

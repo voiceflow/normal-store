@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { normalize, updateOne } from '@/store';
+import { normalize, update, updateMany, updateOne } from '@/store';
 
 describe('store | update', () => {
   describe('updateOne()', () => {
@@ -17,6 +17,46 @@ describe('store | update', () => {
       const update = { id: 'b', foo: true };
 
       expect(updateOne(store, 'b', update)).to.eql({ allKeys: ['a'], byKey: { a: value, b: update } });
+    });
+  });
+
+  describe('updateMany()', () => {
+    const store = normalize([
+      { id: 'a', foo: false },
+      { id: 'b', foo: true },
+    ]);
+
+    it('replaces an existing values', () => {
+      const updateA = { id: 'a', foo: true };
+      const updateB = { id: 'b', foo: false };
+
+      expect(updateMany(store, [updateA, updateB])).to.eql({ allKeys: ['a', 'b'], byKey: { a: updateA, b: updateB } });
+    });
+
+    it('adds a new values when key is not recognized', () => {
+      const update = { id: 'c', foo: true };
+
+      expect(updateMany(store, [update])).to.eql({ allKeys: ['a', 'b'], byKey: { ...store.byKey, c: update } });
+    });
+  });
+
+  describe('update()', () => {
+    const store = normalize([
+      { id: 'a', foo: false },
+      { id: 'b', foo: true },
+    ]);
+
+    it('replaces an existing values', () => {
+      const updateA = { id: 'a', foo: true };
+      const updateB = { id: 'b', foo: false };
+
+      expect(update(store, [updateA, updateB])).to.eql({ allKeys: ['a', 'b'], byKey: { a: updateA, b: updateB } });
+    });
+
+    it('adds a new values when key is not recognized', () => {
+      const updateC = { id: 'c', foo: true };
+
+      expect(update(store, 'b', updateC)).to.eql({ allKeys: ['a', 'b'], byKey: { ...store.byKey, b: updateC } });
     });
   });
 });

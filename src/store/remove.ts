@@ -9,9 +9,9 @@ export interface RemoveMany {
   <T extends Normalized<any>>(store: T, keys: string[]): T;
 }
 
-export type Remove = RemoveOne | RemoveMany;
+export interface Remove extends RemoveOne, RemoveMany {}
 
-export const removeOne: RemoveOne = <T extends Normalized<any>>(store: T, key: string) => {
+export const removeOne: RemoveOne = <T extends Normalized<any>>(store: T, key: string): T => {
   const filteredKeys = withoutValue(store.allKeys, key);
 
   return {
@@ -21,7 +21,7 @@ export const removeOne: RemoveOne = <T extends Normalized<any>>(store: T, key: s
   };
 };
 
-export const removeMany: RemoveMany = <T extends Normalized<any>>(store: T, keys: string[]) => {
+export const removeMany: RemoveMany = <T extends Normalized<any>>(store: T, keys: string[]): T => {
   const filteredKeys = withoutValues(store.allKeys, keys);
 
   return {
@@ -31,6 +31,5 @@ export const removeMany: RemoveMany = <T extends Normalized<any>>(store: T, keys
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const remove = <T extends Normalized<any>>(store: T, keys: string | string[]) =>
+export const remove: Remove = <T extends Normalized<any>>(store: T, keys: string | string[]): T =>
   Array.isArray(keys) ? removeMany(store, keys) : removeOne(store, keys);
